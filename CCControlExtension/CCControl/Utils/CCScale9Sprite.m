@@ -30,14 +30,17 @@ enum positions
 @implementation CCScale9Sprite
 @synthesize originalSize        = originalSize_;
 @synthesize capInsets           = capInsets_;
-@synthesize opacity             = opacity_;
-@synthesize color               = color_;
+//@synthesize opacity             = opacity_;
+//@synthesize color               = color_;
 @synthesize opacityModifyRGB    = opacityModifyRGB_;
 @synthesize insetTop            = insetTop_;
 @synthesize insetLeft           = insetLeft_;
 @synthesize insetBottom         = insetBottom_;
 @synthesize insetRight          = insetRight_;
 @synthesize preferedSize        = preferedSize_;
+
+//@synthesize cascadeOpacityEnabled = _cascadeOpacityEnabled;
+//@synthesize cascadeColorEnabled = _cascadeColorEnabled;
 
 - (void)dealloc
 {
@@ -185,8 +188,11 @@ enum positions
 
 - (void) updateWithBatchNode:(CCSpriteBatchNode*)batchnode rect:(CGRect)rect rotated:(BOOL)rotated capInsets:(CGRect)capInsets
 {
-    GLubyte opacity = opacity_;
-    ccColor3B color = color_;
+    GLubyte opacity = _realOpacity;
+    ccColor3B color = _realColor;
+    
+//    [self setCascadeOpacityEnabled:YES];
+//    [self setCascadeColorEnabled:YES];
     
     // Release old sprites
     [self removeAllChildrenWithCleanup:YES];
@@ -205,6 +211,8 @@ enum positions
     {
         [scale9Image release];
         scale9Image = [batchnode retain];
+//        scale9Image.cascadeColorEnabled = YES;
+//        scale9Image.cascadeOpacityEnabled = YES;
     }
     
     [scale9Image removeAllChildrenWithCleanup:YES];
@@ -526,7 +534,8 @@ enum positions
 
 - (void)setColor:(ccColor3B)color
 {
-    color_      = color;
+    [super setColor:color];
+//    color_      = color;
     
     for (CCNode<CCRGBAProtocol> *child in scale9Image.children)
     {
@@ -536,7 +545,8 @@ enum positions
 
 - (void)setOpacity:(GLubyte)opacity
 {
-    opacity_    = opacity;
+    [super setOpacity:opacity];
+//    opacity_    = opacity;
     
     for (CCNode<CCRGBAProtocol> *child in scale9Image.children)
     {

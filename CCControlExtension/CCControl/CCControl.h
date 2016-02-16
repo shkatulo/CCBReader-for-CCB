@@ -74,11 +74,11 @@ typedef void (^CCControlBlock) (id sender, CCControlEvent event);
  *
  * To use the CCControl you have to subclass it.
  */
-@interface CCControl : CCLayer <CCRGBAProtocol>
+@interface CCControl : CCLayerRGBA//CCLayer <CCRGBAProtocol>
 {
 @public
-    GLubyte             opacity_;
-    ccColor3B           color_;
+//    GLubyte             opacity_;
+//    ccColor3B           color_;
     BOOL                opacityModifyRGB_;
     
     NSInteger           defaultTouchPriority_;
@@ -94,9 +94,9 @@ typedef void (^CCControlBlock) (id sender, CCControlEvent event);
     NSMutableDictionary *dispatchBlockTable_;
 }
 /** Conforms to CCRGBAProtocol protocol. */
-@property (nonatomic, readwrite) GLubyte opacity;
+//@property (nonatomic, readwrite) GLubyte opacity;
 /** Conforms to CCRGBAProtocol protocol. */
-@property (nonatomic, readwrite) ccColor3B color;
+//@property (nonatomic, readwrite) ccColor3B color;
 /** Conforms to CocosNodeRGBA protocol. */
 @property (nonatomic, getter = doesOpacityModifyRGB) BOOL opacityModifyRGB;
 /** Changes the priority of the button. The lower the number, the higher the

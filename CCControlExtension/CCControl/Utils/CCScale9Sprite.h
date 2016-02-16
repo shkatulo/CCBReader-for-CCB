@@ -13,7 +13,7 @@
 /**
  * A 9-slice sprite for cocos2d.
  */
-@interface CCScale9Sprite : CCNode <CCRGBAProtocol>
+@interface CCScale9Sprite : CCNodeRGBA//CCNode <CCRGBAProtocol>
 {
 @public
     CGSize              originalSize_;
@@ -44,8 +44,8 @@
     BOOL                spritesGenerated_;
     
     // texture RGBA
-    GLubyte             opacity_;
-    ccColor3B           color_;
+//    GLubyte             opacity_;
+//    ccColor3B           color_;
     BOOL                opacityModifyRGB_;
 }
 /** Original sprite's size. */
@@ -68,9 +68,9 @@
 @property(nonatomic, assign) float insetBottom;
 
 /** Conforms to CocosNodeRGBA protocol. */
-@property (nonatomic, readwrite) GLubyte opacity;
+//@property (nonatomic, readwrite) GLubyte opacity;
 /** Conforms to CocosNodeRGBA protocol. */
-@property (nonatomic, readwrite) ccColor3B color;
+//@property (nonatomic, readwrite) ccColor3B color;
 /** Conforms to CocosNodeRGBA protocol. */
 @property (nonatomic, getter = doesOpacityModifyRGB) BOOL opacityModifyRGB;
 

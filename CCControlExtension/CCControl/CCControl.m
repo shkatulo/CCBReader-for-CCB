@@ -117,9 +117,12 @@
 @synthesize enabled                 = enabled_;
 @synthesize selected                = selected_;
 @synthesize highlighted             = highlighted_;
-@synthesize opacity                 = opacity_;
-@synthesize color                   = color_;
+//@synthesize opacity                 = opacity_;
+//@synthesize color                   = color_;
 @synthesize opacityModifyRGB        = opacityModifyRGB_;
+
+//@synthesize cascadeOpacityEnabled = _cascadeOpacityEnabled;
+//@synthesize cascadeColorEnabled = _cascadeColorEnabled;
 
 - (void)dealloc
 {
@@ -154,6 +157,9 @@
         // Initialise the tables
         dispatchTable_              = [[NSMutableDictionary alloc] initWithCapacity:1];
         dispatchBlockTable_         = [[NSMutableDictionary alloc] initWithCapacity:1];
+        
+//        self.cascadeColorEnabled = YES;
+//        self.cascadeOpacityEnabled = YES;
     }
     return self;
 }
@@ -188,46 +194,49 @@
 
 #pragma mark Properties
 
-- (void)setColor:(ccColor3B)color
-{
-    color_ = color;
-    
-    for (CCNode<CCRGBAProtocol> *child in self.children)
-    {
-        [child setColor:color];
-    }
-}
+//- (void)setColor:(ccColor3B)color
+//{
+//    [super setColor:color];
+//    _realColor = color;
+//    
+//    for (CCNode<CCRGBAProtocol> *child in self.children)
+//    {
+//        [child setColor:color];
+//    }
+//}
 
-- (void)setOpacity:(GLubyte)opacity
-{
-    opacity_ = opacity;
-    
-    for (CCNode<CCRGBAProtocol> *child in self.children)
-    {
-        [child setOpacity:opacity];
-    }
-}
+//- (void)setOpacity:(GLubyte)opacity
+//{
+//    [super setOpacity:opacity];
+//    _realOpacity = opacity;
+//    
+//    for (CCNode<CCRGBAProtocol> *child in self.children)
+//    {
+//        [child setOpacity:opacity];
+//    }
+//}
 
-- (void)setOpacityModifyRGB:(BOOL)opacityModifyRGB
-{
-    opacityModifyRGB_ = opacityModifyRGB;
-    
-    for (CCNode<CCRGBAProtocol> *child in self.children)
-    {
-        [child setOpacityModifyRGB:opacityModifyRGB];
-    }
-}
+//- (void)setOpacityModifyRGB:(BOOL)opacityModifyRGB
+//{
+//    opacityModifyRGB_ = opacityModifyRGB;
+//    
+//    for (CCNode<CCRGBAProtocol> *child in self.children)
+//    {
+//        [child setOpacityModifyRGB:opacityModifyRGB];
+//    }
+//}
 
 - (void)setEnabled:(BOOL)enabled
 {
     enabled_        = enabled;
     
-    if(enabled_) {
-        state_ = CCControlStateNormal;
-    } else {
-        state_ = CCControlStateDisabled;
-    }
-    
+//    if(enabled_) {
+//        state_ = CCControlStateNormal;
+//    } else {
+//        state_ = CCControlStateDisabled;
+//    }
+
+    [self updateState];
     [self needsLayout];
 }
 
@@ -235,6 +244,7 @@
 {
     selected_       = selected;
     
+    [self updateState];
     [self needsLayout];
 }
 
@@ -242,6 +252,7 @@
 {
     highlighted_    = highlighted;
     
+    [self updateState];
     [self needsLayout];
 }
 
@@ -252,6 +263,13 @@
 		if( !c.visible ) return NO;
     }
     return YES;
+}
+
+- (void)updateState {
+    state_ = CCControlStateNormal;
+    if (selected_) state_ = CCControlStateSelected;
+    if (highlighted_) state_ = CCControlStateHighlighted;
+    if (!enabled_) state_ = CCControlStateDisabled;
 }
 
 #pragma mark -
